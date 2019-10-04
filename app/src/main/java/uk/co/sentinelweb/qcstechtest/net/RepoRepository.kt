@@ -1,6 +1,7 @@
 package uk.co.sentinelweb.qcstechtest.net
 
-class RepoRepository {
+import uk.co.sentinelweb.qcstechtest.domain.Commit
 
-
+interface RepoRepository {
+    suspend fun getCommits(): List<Commit>
 }

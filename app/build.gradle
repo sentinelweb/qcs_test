@@ -35,6 +35,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.6.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    // Koin for Android
+    implementation 'org.koin:koin-android:2.0.1'
+    // or Koin for Lifecycle scoping
+    implementation 'org.koin:koin-androidx-scope:2.0.1'
+    // or Koin for Android Architecture ViewModel
+    implementation 'org.koin:koin-androidx-viewmodel:2.0.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:2.28.2"
