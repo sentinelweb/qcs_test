@@ -52,15 +52,27 @@ class CommitViewModelTest {
             assertNotNull(actual)
             verify(mockRepoRepository).getCommits()
         }
-
     }
 
     @Test
     fun loadData() {
+        runBlocking {
+            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
+
+            sut.loadData()
+
+            verify(mockRepoRepository).getCommits()
+        }
     }
 
     @Test
     fun releaseJob() {
+        runBlocking {
+            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
 
+            sut.loadData()
+
+            verify(mockRepoRepository).getCommits()
+        }
     }
 }

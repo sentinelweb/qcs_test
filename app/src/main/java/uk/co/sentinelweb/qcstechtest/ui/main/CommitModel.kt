@@ -6,5 +6,5 @@ data class CommitModel(
     val message: String,
     val dateString: String,
     val name: String,
-    val imageUrl: String
+    val imageUrl: String?
 )

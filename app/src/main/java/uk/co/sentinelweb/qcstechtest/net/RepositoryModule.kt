@@ -23,8 +23,6 @@ class RepositoryModule {
             single<RepoRepository> {
                 RepoRetrofitRepository(CommitInteractor(get(), CommitDtoMapper()))
             }
-
-            viewModel { CommitViewModel(get(), CommitModelMapper(), CoroutineContextProvider()) }
         }
 
     }

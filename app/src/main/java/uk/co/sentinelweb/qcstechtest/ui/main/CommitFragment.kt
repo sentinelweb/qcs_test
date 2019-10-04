@@ -37,7 +37,7 @@ class CommitFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        commitViewModel.releaseJob()
+        commitViewModel.releaseJobs()
         super.onDestroyView()
     }
 

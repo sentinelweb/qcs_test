@@ -17,7 +17,7 @@ class CommitDtoMapper() {
             Commit.Author(
                 commitRecordDto.commit.committer.name,
                 commitRecordDto.commit.committer.email,
-                commitRecordDto.committer.avatar_url
+                commitRecordDto.committer?.avatar_url
             )
         )
     }

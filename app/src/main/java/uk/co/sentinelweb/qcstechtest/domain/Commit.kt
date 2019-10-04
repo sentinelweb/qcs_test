@@ -11,6 +11,6 @@ data class Commit(
     data class Author(
         val name: String,
         val email: String,
-        val imageUrl: String
+        val imageUrl: String?
     )
 }

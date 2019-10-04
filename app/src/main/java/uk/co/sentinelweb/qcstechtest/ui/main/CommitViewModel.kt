@@ -7,40 +7,36 @@ import kotlinx.coroutines.*
 import uk.co.sentinelweb.qcstechtest.net.RepoRepository
 import uk.co.sentinelweb.qcstechtest.providers.CoroutineContextProvider
 
-class CommitViewModel (
+class CommitViewModel(
     private val repository: RepoRepository,
     private val modelMapper: CommitModelMapper,
     private val contextProvider: CoroutineContextProvider
 ) : ViewModel() {
 
-    private lateinit var loadJob: Job
-    private val returnLive =  MutableLiveData<List<CommitModel>>()
+    internal var jobs = mutableListOf<Job>()
+    private val returnLive = MutableLiveData<List<CommitModel>>()
 
     fun commits(): LiveData<List<CommitModel>> {
-        loadData()
+        if (returnLive.value?.isEmpty() ?: true) {
+            loadData()
+        }
         return returnLive
     }
 
     fun loadData() {
-//        loadJob = CoroutineScope(contextProvider.IO).launch {
-//            val commitsResult = repository.getCommits()
-//            withContext(contextProvider.Main) {
-//                returnLive.value = commitsResult
-//                        .map { modelMapper.map(it) }
-//            }
-//        }
-        CoroutineScope(contextProvider.Main).launch {
+        jobs.add(CoroutineScope(contextProvider.Main).launch {
             // move to another Thread
             val commitsResult = withContext(contextProvider.IO) {
                 repository.getCommits().map { modelMapper.map(it) }
             }
             returnLive.value = commitsResult
-        }
+        })
     }
 
-    fun releaseJob() {
-        if (::loadJob.isInitialized && loadJob.isActive) {
-            loadJob.cancel()
+    fun releaseJobs() {
+        jobs.forEach{job ->
+            if (job.isActive) job.cancel()
         }
+        jobs.clear()
     }
 }

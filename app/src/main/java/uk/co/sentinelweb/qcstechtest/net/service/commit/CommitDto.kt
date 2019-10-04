@@ -3,7 +3,7 @@ package uk.co.sentinelweb.qcstechtest.net.service.commit
 data class CommitRecordDto(
     val sha: String,
     val commit: CommitDto,
-    val committer: CommitterOverviewDto
+    val committer: CommitterOverviewDto?
 ) {
     data class CommitDto(
         val message: String,
