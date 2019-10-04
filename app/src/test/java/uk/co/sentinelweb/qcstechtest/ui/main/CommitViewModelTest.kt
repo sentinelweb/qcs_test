@@ -1,6 +1,7 @@
 package uk.co.sentinelweb.qcstechtest.ui.main
 
 import com.nhaarman.mockitokotlin2.verify
+import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.newSingleThreadContext
@@ -14,7 +15,9 @@ import org.junit.Test
 import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import uk.co.sentinelweb.qcstechtest.domain.Commit
 import uk.co.sentinelweb.qcstechtest.net.RepoRepository
+import uk.co.sentinelweb.qcstechtest.providers.TestCoroutineContextProvider
 
 /**
  * TODO finish the test
@@ -32,7 +35,7 @@ class CommitViewModelTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
         Dispatchers.setMain(mainThreadSurrogate)
-        sut = CommitViewModel(mockRepoRepository, mockCommitModelMapper)
+        sut = CommitViewModel(mockRepoRepository, mockCommitModelMapper, TestCoroutineContextProvider())
     }
 
     @After
@@ -44,10 +47,12 @@ class CommitViewModelTest {
     @Test
     fun commits() {
         runBlocking {
-            val actual = async { sut.commits() }
+            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
+            val actual = sut.commits()
             assertNotNull(actual)
             verify(mockRepoRepository).getCommits()
         }
+
     }
 
     @Test
