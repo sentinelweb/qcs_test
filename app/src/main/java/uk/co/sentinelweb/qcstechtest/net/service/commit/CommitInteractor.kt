@@ -7,11 +7,11 @@ import uk.co.sentinelweb.qcstechtest.net.service.RepoService
 class CommitInteractor(
     private val service: RepoService,
     private val mapper: CommitDtoMapper
-){
+) {
 
-    suspend fun getCommits():List<Commit> {
+    suspend fun getCommits(): List<Commit> {
         return service.listCommits()
-            .map {mapper.map(it)}
+            .map { mapper.map(it) }
     }
 
 }

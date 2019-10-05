@@ -1,78 +1,43 @@
 package uk.co.sentinelweb.qcstechtest.ui.main
 
 import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.newSingleThreadContext
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Assert.assertNotNull
-import org.junit.Test
-
 import org.junit.Before
+import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import uk.co.sentinelweb.qcstechtest.domain.Commit
 import uk.co.sentinelweb.qcstechtest.net.RepoRepository
-import uk.co.sentinelweb.qcstechtest.providers.TestCoroutineContextProvider
 
-/**
- * TODO finish the test
- * - test the call to commits call the repository.
- * - test job is cancelled in release.
- */
 class CommitViewModelTest {
-    @Mock private lateinit var mockRepoRepository: RepoRepository
-    @Mock private lateinit var mockCommitModelMapper: CommitModelMapper
+    @Mock
+    private lateinit var mockRepoRepository: RepoRepository
+    @Mock
+    private lateinit var mockCommitModelMapper: CommitModelMapper
 
-    private lateinit var sut:CommitViewModel
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private lateinit var sut: CommitViewModel
+
 
     @Before
     fun setUp() {
         MockitoAnnotations.initMocks(this)
-        Dispatchers.setMain(mainThreadSurrogate)
-        sut = CommitViewModel(mockRepoRepository, mockCommitModelMapper, TestCoroutineContextProvider())
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
+        sut = CommitViewModel(mockRepoRepository, mockCommitModelMapper)
     }
 
     @Test
     fun commits() {
-        runBlocking {
-            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
-            val actual = sut.commits()
-            assertNotNull(actual)
-            verify(mockRepoRepository).getCommits()
-        }
+        val liveData = sut.commits()
+        assertNotNull(liveData)
     }
 
     @Test
-    fun loadData() {
-        runBlocking {
-            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
-
-            sut.loadData()
-
-            verify(mockRepoRepository).getCommits()
-        }
+    fun reloadData() {
+        sut.reloadData()
+        verify(mockRepoRepository).reloadCommits()
     }
 
     @Test
-    fun releaseJob() {
-        runBlocking {
-            whenever(mockRepoRepository.getCommits()).thenReturn(mutableListOf())
-
-            sut.loadData()
-
-            verify(mockRepoRepository).getCommits()
-        }
+    fun release() {
+        sut.release()
+        verify(mockRepoRepository).releaseResources()
     }
 }

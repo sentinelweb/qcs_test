@@ -7,8 +7,11 @@ import java.time.format.DateTimeFormatter
 
 class CommitDtoMapper() {
 
-    fun map(commitRecordDto:CommitRecordDto):Commit {
-        val parse = ZonedDateTime.parse(commitRecordDto.commit.committer.date, DateTimeFormatter.ISO_DATE_TIME)
+    fun map(commitRecordDto: CommitRecordDto): Commit {
+        val parse = ZonedDateTime.parse(
+            commitRecordDto.commit.committer.date,
+            DateTimeFormatter.ISO_DATE_TIME
+        )
             .withZoneSameInstant(ZoneId.systemDefault())
         return Commit(
             commitRecordDto.sha,

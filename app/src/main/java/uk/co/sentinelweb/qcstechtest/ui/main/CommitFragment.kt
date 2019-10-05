@@ -1,10 +1,10 @@
 package uk.co.sentinelweb.qcstechtest.ui.main
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -23,8 +23,10 @@ class CommitFragment : Fragment() {
     private lateinit var commitListAdapter: CommitListRecyclerViewAdapter
     private lateinit var commitListSwipe: SwipeRefreshLayout
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         val inflate = inflater.inflate(R.layout.main_fragment, container, false)
         commitListRecycler = inflate.findViewById(R.id.commit_list_recycler)
         commitListSwipe = inflate.findViewById(R.id.commit_list_swipe)
@@ -37,7 +39,7 @@ class CommitFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        commitViewModel.releaseJobs()
+        commitViewModel.release()
         super.onDestroyView()
     }
 
@@ -52,7 +54,7 @@ class CommitFragment : Fragment() {
         recyclerView.adapter = commitListAdapter
 
         commitListSwipe.setOnRefreshListener {
-            commitViewModel.loadData()
+            commitViewModel.reloadData()
         }
 
         val dividerItemDecoration = DividerItemDecoration(

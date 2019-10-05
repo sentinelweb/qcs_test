@@ -1,9 +1,8 @@
 package uk.co.sentinelweb.qcstechtest.ui.main
 
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-
-import org.junit.Assert.*
 import uk.co.sentinelweb.qcstechtest.domain.Commit
 import java.time.ZonedDateTime
 
@@ -30,7 +29,7 @@ class CommitModelMapperTest {
         assertEquals("sha_1", actual.sha)
         assertEquals("message1", actual.message)
         assertEquals(date.toString(), actual.dateString)
-        assertEquals("name1",actual.name)
+        assertEquals("name1", actual.name)
         assertEquals("http://image.com/url", actual.imageUrl)
     }
 }

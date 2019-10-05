@@ -4,7 +4,7 @@ import uk.co.sentinelweb.qcstechtest.domain.Commit
 
 class CommitModelMapper {
 
-    fun map(commitDomain:Commit):CommitModel {
+    fun map(commitDomain: Commit): CommitModel {
 
         return CommitModel(
             commitDomain.sha,
